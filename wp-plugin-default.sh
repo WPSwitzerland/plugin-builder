@@ -30,6 +30,7 @@ read AUTHOR_NAMESPACE
 echo "What plugin namespace should be used?"
 read PLUGIN_KEY_PASCAL_CASE
 
+# Search and replace metadata and names
 find ./wp-plugin-default -type f -name "*.php" -exec sed -i '' -e "s/PLUGIN_PREFIX/$PLUGIN_PREFIX/g" {} +
 find ./wp-plugin-default -type f -name "*.php" -exec sed -i '' -e "s/PLUGIN_AUTHOR/$PLUGIN_AUTHOR/g" {} +
 find ./wp-plugin-default -type f -name "*.php" -exec sed -i '' -e "s/PLUGIN_NAME/$PLUGIN_NAME/g" {} +
@@ -37,5 +38,9 @@ find ./wp-plugin-default -type f -name "*.php" -exec sed -i '' -e "s/PLUGIN_DESC
 find ./wp-plugin-default -type f -name "*.php" -exec sed -i '' -e "s/AUTHOR_NAMESPACE/$AUTHOR_NAMESPACE/g" {} +
 find ./wp-plugin-default -type f -name "*.php" -exec sed -i '' -e "s/TEXT_DOMAIN/$TEXT_DOMAIN/g" {} +
 find ./wp-plugin-default -type f -name "*.php" -exec sed -i '' -e "s/PLUGIN_KEY_PASCAL_CASE/$PLUGIN_KEY_PASCAL_CASE/g" {} +
+
+# Rename directory and files
+mv wp-plugin-default/wp-plugin-default.php $TEXT_DOMAIN.php
+mv wp-plugin-default $TEXT_DOMAIN
 
 echo "You are good to go!"
