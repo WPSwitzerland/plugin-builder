@@ -31,6 +31,10 @@ Please respect the GPL v3 licence, which is available via http://www.gnu.org/lic
 
 ## Changelog
 
+### 0.3.0
+* Fix URL issue detailed in 0.2.0.
+* Hyperlink contributor URIs.
+
 ### 0.2.1
 * Fix minor formatting issue in README.
 
