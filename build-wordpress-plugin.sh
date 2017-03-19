@@ -22,6 +22,9 @@ function runPluginBuilder()
     echo "Author URI (website address)"
     read AUTHOR_URI
 
+    # Escape URI for regexp use within sed
+    AUTHOR_URI=$(echo $AUTHOR_URI | sed -e 's/\//\\\//g')
+
     echo "Author's vendor name (e.g. 'CompanyName')"
     read AUTHOR_NAMESPACE
 
@@ -33,6 +36,9 @@ function runPluginBuilder()
 
     echo "Plugin URI (e.g. GitHub URL)"
     read PLUGIN_URI
+
+    # Escape URI for regexp use within sed
+    PLUGIN_URI=$(echo $PLUGIN_URI | sed -e 's/\//\\\//g')
 
 	# Fetch the current base code from GitHub
     git clone https://github.com/WPSwitzerland/wp-plugin-default $PLUGIN_KEY
@@ -107,4 +113,3 @@ function runPluginBuilder()
 runPluginBuilder
 
 echo "You are good to go!"
-
