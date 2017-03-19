@@ -20,9 +20,9 @@ brew install gnu-sed --with-default-names
 ```
 
 ## Contributors
-* Mark Howells-Mead | markweb.ch
-* Mauro Bringolf | maurobringolf.ch
-* Simon Bärlocher | sbaerlocher.ch
+* Mark Howells-Mead | [markweb.ch](https://markweb.ch)
+* Mauro Bringolf | [maurobringolf.ch](https://maurobringolf.ch)
+* Simon Bärlocher | [sbaerlocher.ch](https://sbaerlocher.ch)
 
 ## License
 Use this code freely, widely and for free. Provision of this code provides and implies no guarantee.
