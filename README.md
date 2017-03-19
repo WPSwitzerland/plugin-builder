@@ -19,6 +19,14 @@ works. You can use [Homebrew](https://brew.sh/) to do this.
 brew install gnu-sed --with-default-names
 ```
 
+### Global access
+(This applies for Mac OS.) Place a copy of the .sh file in ``/usr/local/bin`` and make it executable.
+
+    cp build-wordpress-plugin.sh /usr/local/bin/build-wordpress-plugin
+    chmod +x /usr/local/bin/build-wordpress-plugin
+
+Then use ``build-wordpress-plugin`` from the plugin directory of your project.
+
 ## Contributors
 * Mark Howells-Mead | [markweb.ch](https://markweb.ch)
 * Mauro Bringolf | [maurobringolf.ch](https://maurobringolf.ch)
@@ -30,6 +38,9 @@ Use this code freely, widely and for free. Provision of this code provides and i
 Please respect the GPL v3 licence, which is available via http://www.gnu.org/licenses/gpl-3.0.html
 
 ## Changelog
+
+### 0.3.1
+* Add global access information to README.
 
 ### 0.3.0
 * Fix URL issue detailed in 0.2.0.
