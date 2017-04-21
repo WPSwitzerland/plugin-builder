@@ -2,7 +2,7 @@
 
 ## Description
 This is a shell script, which you can run on the command line and which uses
-[this boilerplate code](https://github.com/WPSwitzerland/wp-plugin-default) to automatically set up a new plugin.
+[this boilerplate code](https://github.com/WPSwitzerland/plugin-boilerplate-psr) to automatically set up a new plugin.
 It provides you with all that you will need to start working on a WordPress plugin based around code using
 PHP namespaces.
 
