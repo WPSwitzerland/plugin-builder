@@ -39,6 +39,9 @@ Please respect the GPL v3 licence, which is available via http://www.gnu.org/lic
 
 ## Changelog
 
+### 0.4.0
+* Reference new plugin-boilerplate-psr repository paths.
+
 ### 0.3.1
 * Add global access information to README.
 
