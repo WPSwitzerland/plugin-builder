@@ -37,6 +37,9 @@ function runPluginBuilder()
     echo "Plugin URI (e.g. GitHub URL)"
     read PLUGIN_URI
 
+    # Replace dots from PLUGIN_KEY to not break function names
+    PLUGIN_KEY_CLEAN=$(echo $PLUGIN_KEY | sed 's/\./\_/g')
+
     # Escape URI for regexp use within sed
     PLUGIN_URI=$(echo $PLUGIN_URI | sed -e 's/\//\\\//g')
 
@@ -49,21 +52,21 @@ function runPluginBuilder()
 	# Search and replace metadata and names
 
     # Plugin key
-    find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/PLUGIN_KEY/$PLUGIN_KEY/g" {} +
+    find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/PLUGIN_KEY/$PLUGIN_KEY_CLEAN/g" {} +
 
     # Plugin prefix (for non-namespace functionality)
-    find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/PLUGIN_PREFIX/$PLUGIN_KEY/g" {} +
+    find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/PLUGIN_PREFIX/$PLUGIN_KEY_CLEAN/g" {} +
 
     # Text domain
-    find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/TEXT_DOMAIN/$PLUGIN_KEY/g" {} +
+    find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/TEXT_DOMAIN/$PLUGIN_KEY_CLEAN/g" {} +
 
     # Plugin domain (e.g. wpswitzerland/my_great_plugin)
     # First convert to lowercase
-    PLUGIN_DOMAIN=$(echo "$AUTHOR_NAMESPACE/$PLUGIN_KEY" | sed -e 's/\(.*\)/\L\1/')
+    PLUGIN_DOMAIN=$(echo "$AUTHOR_NAMESPACE/$PLUGIN_KEY_CLEAN" | sed -e 's/\(.*\)/\L\1/')
     find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/PLUGIN_DOMAIN/$PLUGIN_DOMAIN/g" {} +
 
     # Apply plugin key as pascal case namespace
-    PLUGIN_NAMESPACE=$(echo $PLUGIN_KEY | sed -e 's/_\([a-z]\)/\u\1/g' -e 's/^[a-z]/\u&/')
+    PLUGIN_NAMESPACE=$(echo $PLUGIN_KEY_CLEAN | sed -e 's/_\([a-z]\)/\u\1/g' -e 's/^[a-z]/\u&/')
     find $PLUGIN_KEY -type f -name "*.php" -exec sed -i "s/PLUGIN_NAMESPACE/$PLUGIN_NAMESPACE/g" {} +
 
     # Plugin author name
