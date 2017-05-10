@@ -31,6 +31,7 @@ Then use ``build-wordpress-plugin`` from the plugin directory of your project.
 * Mark Howells-Mead | [markweb.ch](https://markweb.ch)
 * Mauro Bringolf | [maurobringolf.ch](https://maurobringolf.ch)
 * Simon Bärlocher | [sbaerlocher.ch](https://sbaerlocher.ch)
+* Sven von Arx | [cubetech.ch](https://cubetech.ch)
 
 ## License
 Use this code freely, widely and for free. Provision of this code provides and implies no guarantee.
@@ -38,6 +39,9 @@ Use this code freely, widely and for free. Provision of this code provides and i
 Please respect the GPL v3 licence, which is available via http://www.gnu.org/licenses/gpl-3.0.html
 
 ## Changelog
+
+### 0.5.0
+* Clean plugin key input to remove . characters.
 
 ### 0.4.0
 * Reference new plugin-boilerplate-psr repository paths.
