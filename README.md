@@ -28,7 +28,7 @@ brew install gnu-sed --with-default-names
 Then use ``build-wordpress-plugin`` from the plugin directory of your project.
 
 ## Contributors
-* Mark Howells-Mead | [markweb.ch](https://markweb.ch)
+* Mark Howells-Mead | [permanenttourist.ch](https://permanenttourist.ch/topic/wordpress)
 * Mauro Bringolf | [maurobringolf.ch](https://maurobringolf.ch)
 * Simon Bärlocher | [sbaerlocher.ch](https://sbaerlocher.ch)
 * Sven von Arx
