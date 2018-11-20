@@ -31,7 +31,7 @@ Then use ``build-wordpress-plugin`` from the plugin directory of your project.
 * Mark Howells-Mead | [markweb.ch](https://markweb.ch)
 * Mauro Bringolf | [maurobringolf.ch](https://maurobringolf.ch)
 * Simon Bärlocher | [sbaerlocher.ch](https://sbaerlocher.ch)
-* Sven von Arx | [cubetech.ch](https://cubetech.ch)
+* Sven von Arx
 
 ## License
 Use this code freely, widely and for free. Provision of this code provides and implies no guarantee.
