@@ -20,6 +20,24 @@ works. You can use [Homebrew](https://brew.sh/) to do this. When installing, Hom
 brew install gnu-sed
 ```
 
+### Preset values
+If you have the appropriate environment variables set in your bash profile, version 0.6.0 added support for these
+as default values. Press ENTER on the command line to accept the default values (where available) or type your
+custom values as appropriate.
+
+(To create a custom environment variable with its value, add your modified version of the following to e.g. `~/.bash_profile` (on OSX).
+
+    export WP_PLUGIN_AUTHOR="Mark Howells-Mead"
+    export WP_PLUGIN_EMAIL="mark@sayhello.ch"
+    export WP_PLUGIN_AUTHOR_URI="https://sayhello.ch/"
+    export WP_PLUGIN_AUTHOR_NAMESPACE="SayHello"
+
+### Supported environment variables
+* WP_PLUGIN_AUTHOR
+* WP_PLUGIN_EMAIL
+* WP_PLUGIN_AUTHOR_URI
+* WP_PLUGIN_AUTHOR_NAMESPACE
+
 ### Global access
 (This applies for Mac OS.) Place a copy of the .sh file in ``/usr/local/bin`` and make it executable.
 
@@ -40,6 +58,13 @@ Use this code freely, widely and for free. Provision of this code provides and i
 Please respect the GPL v3 licence, which is available via http://www.gnu.org/licenses/gpl-3.0.html
 
 ## Changelog
+
+### 0.6.1
+* Update README
+
+### 0.6.0
+* Fix SED errors and allow defaults via ENV
+* Update gnu-sed instructions for OSX
 
 ### 0.5.0
 * Clean plugin key input to remove . characters.
