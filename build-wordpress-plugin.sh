@@ -3,9 +3,14 @@
 function runPluginBuilder()
 {
 
-	# Ask for data
-    echo "Plugin key: lowercase with underscores (e.g. 'my_plugin')"
-    read PLUGIN_KEY
+    echo $0
+    echo $1
+    echo $2
+    echo $3
+
+    ### PLUGIN KEY
+    read -p "Plugin key: lowercase with underscores [my_plugin]:" plugin_key
+    PLUGIN_KEY=${plugin_key:-my_plugin}
 
     if test -z "$PLUGIN_KEY"
     then
@@ -13,29 +18,51 @@ function runPluginBuilder()
         exit
     fi
 
-    echo "Author name (e.g. 'Mark Mustermann')"
-    read PLUGIN_AUTHOR
+    ### PLUGIN NAME (no default)
+        read -p "Plugin name (e.g. 'My great plugin'):" PLUGIN_NAME
 
-    echo "Author email address"
-    read AUTHOR_EMAIL
+    ### PLUGIN DESCRIPTION (no default)
+        read -p "Plugin description:" PLUGIN_DESCRIPTION
 
-    echo "Author URI (website address)"
-    read AUTHOR_URI
+    ### PLUGIN URI (no default)
+        read -p "Plugin URI:" PLUGIN_URI
 
-    # Escape URI for regexp use within sed
-    AUTHOR_URI=$(echo $AUTHOR_URI | sed -e 's/\//\\\//g')
+    ### AUTHOR NAME (WP_PLUGIN_AUTHOR)
+        if [[ -z "${WP_PLUGIN_AUTHOR}" ]]; then
+            WP_PLUGIN_AUTHOR_DEFAULT=""
+        else
+            WP_PLUGIN_AUTHOR_DEFAULT="${WP_PLUGIN_AUTHOR}"
+        fi
+        read -p "Author name [$WP_PLUGIN_AUTHOR_DEFAULT]:" PLUGIN_AUTHOR
+        PLUGIN_AUTHOR=${plugin_author:-$WP_PLUGIN_AUTHOR_DEFAULT}
 
-    echo "Author's vendor name (e.g. 'CompanyName')"
-    read AUTHOR_NAMESPACE
+    ### AUTHOR EMAIL (WP_PLUGIN_EMAIL)
+        if [[ -z "${WP_PLUGIN_EMAIL}" ]]; then
+            WP_PLUGIN_EMAIL_DEFAULT=""
+        else
+            WP_PLUGIN_EMAIL_DEFAULT="${WP_PLUGIN_EMAIL}"
+        fi
+        read -p "Author email address [$WP_PLUGIN_EMAIL_DEFAULT]:" PLUGIN_EMAIL
+        AUTHOR_EMAIL=${plugin_email:-$WP_PLUGIN_EMAIL_DEFAULT}
 
-    echo "Plugin name (e.g. 'My great plugin')?"
-    read PLUGIN_NAME
+    ### AUTHOR URI (WP_PLUGIN_AUTHOR_URI)
+        if [[ -z "${WP_PLUGIN_AUTHOR_URI}" ]]; then
+            WP_PLUGIN_AUTHOR_URI_DEFAULT=""
+        else
+            WP_PLUGIN_AUTHOR_URI_DEFAULT="${WP_PLUGIN_AUTHOR_URI}"
+        fi
+        read -p "Author website [$WP_PLUGIN_AUTHOR_URI_DEFAULT]:" AUTHOR_URI
+        AUTHOR_URI=${AUTHOR_URI:-$WP_PLUGIN_AUTHOR_URI_DEFAULT}
+        AUTHOR_URI=$(echo $AUTHOR_URI | sed -e 's/\//\\\//g') # Escape URI
 
-    echo "Plugin description"
-    read PLUGIN_DESCRIPTION
-
-    echo "Plugin URI (e.g. GitHub URL)"
-    read PLUGIN_URI
+    ### AUTHOR NAMESPACE (WP_PLUGIN_AUTHOR_NAMESPACE)
+        if [[ -z "${WP_PLUGIN_AUTHOR_NAMESPACE}" ]]; then
+            WP_PLUGIN_AUTHOR_NAMESPACE_DEFAULT=""
+        else
+            WP_PLUGIN_AUTHOR_NAMESPACE_DEFAULT="${WP_PLUGIN_AUTHOR_NAMESPACE}"
+        fi
+        read -p "Author's vendor name [$WP_PLUGIN_AUTHOR_NAMESPACE_DEFAULT]:" AUTHOR_NAMESPACE
+        AUTHOR_NAMESPACE=${AUTHOR_NAMESPACE:-$WP_PLUGIN_AUTHOR_NAMESPACE_DEFAULT}
 
     # Replace dots from PLUGIN_KEY to not break function names
     PLUGIN_KEY_CLEAN=$(echo $PLUGIN_KEY | sed 's/\./\_/g')
@@ -52,63 +79,68 @@ function runPluginBuilder()
 	# Search and replace metadata and names
 
     # Plugin key
-    find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/PLUGIN_KEY/$PLUGIN_KEY_CLEAN/g" {} +
+    find $PLUGIN_KEY -type f -name "*.*" -exec sed -i '' "s/PLUGIN_KEY/$PLUGIN_KEY_CLEAN/g" {} +
 
     # Plugin prefix (for non-namespace functionality)
-    find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/PLUGIN_PREFIX/$PLUGIN_KEY_CLEAN/g" {} +
+    find $PLUGIN_KEY -type f -name "*.*" -exec sed -i '' "s/PLUGIN_PREFIX/$PLUGIN_KEY_CLEAN/g" {} +
 
     # Text domain
-    find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/TEXT_DOMAIN/$PLUGIN_KEY_CLEAN/g" {} +
+    find $PLUGIN_KEY -type f -name "*.*" -exec sed -i '' "s/TEXT_DOMAIN/$PLUGIN_KEY_CLEAN/g" {} +
+
+    # Apply plugin key as pascal case namespace
+    PLUGIN_NAMESPACE=$(echo $PLUGIN_KEY_CLEAN | sed -E 's/[_-]([a-z0-9])/\U\1/g')
+
+    echo ''
+    echo $PLUGIN_NAMESPACE;
+    echo ''
+
+    find $PLUGIN_KEY -type f -name "*.php" -exec sed -i '' "s/PLUGIN_NAMESPACE/$PLUGIN_NAMESPACE/g" {} +
 
     # Plugin domain (e.g. wpswitzerland/my_great_plugin)
     # First convert to lowercase
-    PLUGIN_DOMAIN=$(echo "$AUTHOR_NAMESPACE/$PLUGIN_KEY_CLEAN" | sed -e 's/\(.*\)/\L\1/')
-    find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/PLUGIN_DOMAIN/$PLUGIN_DOMAIN/g" {} +
-
-    # Apply plugin key as pascal case namespace
-    PLUGIN_NAMESPACE=$(echo $PLUGIN_KEY_CLEAN | sed -e 's/_\([a-z]\)/\u\1/g' -e 's/^[a-z]/\u&/')
-    find $PLUGIN_KEY -type f -name "*.php" -exec sed -i "s/PLUGIN_NAMESPACE/$PLUGIN_NAMESPACE/g" {} +
+    PLUGIN_DOMAIN=$PLUGIN_KEY_CLEAN
+    find $PLUGIN_KEY -type f -name "*.*" -exec sed -i '' "s/PLUGIN_DOMAIN/$PLUGIN_DOMAIN/g" {} +
 
     # Plugin author name
     if ! test -z "$PLUGIN_AUTHOR"
     then
-        find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/PLUGIN_AUTHOR/$PLUGIN_AUTHOR/g" {} +
+        find $PLUGIN_KEY -type f -name "*.*" -exec sed -i '' "s/PLUGIN_AUTHOR/$PLUGIN_AUTHOR/g" {} +
     fi
 
     # Plugin author email address
     if ! test -z "$AUTHOR_EMAIL"
     then
-        find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/AUTHOR_EMAIL/$AUTHOR_EMAIL/g" {} +
+        find $PLUGIN_KEY -type f -name "*.*" -exec sed -i '' "s/AUTHOR_EMAIL/$AUTHOR_EMAIL/g" {} +
     fi
 
     # Plugin author website
     if ! test -z "$AUTHOR_URI"
     then
-        find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/AUTHOR_URI/$AUTHOR_URI/g" {} +
+        find $PLUGIN_KEY -type f -name "*.*" -exec sed -i '' "s/AUTHOR_URI/$AUTHOR_URI/g" {} +
     fi
 
     # Plugin name
     if ! test -z "$PLUGIN_NAME"
     then
-		find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/PLUGIN_NAME/$PLUGIN_NAME/g" {} +
+		find $PLUGIN_KEY -type f -name "*.*" -exec sed -i '' "s/PLUGIN_NAME/$PLUGIN_NAME/g" {} +
     fi
 
     # Plugin description
     if ! test -z "$PLUGIN_DESCRIPTION"
     then
-    	find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/PLUGIN_DESCRIPTION/$PLUGIN_DESCRIPTION/g" {} +
+    	find $PLUGIN_KEY -type f -name "*.*" -exec sed -i '' "s/PLUGIN_DESCRIPTION/$PLUGIN_DESCRIPTION/g" {} +
     fi
 
     # Plugin author namespace (Usually a company name; used as the top-level PHP namespace)
     if ! test -z "$AUTHOR_NAMESPACE"
     then
-        find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/AUTHOR_NAMESPACE/$AUTHOR_NAMESPACE/g" {} +
+        find $PLUGIN_KEY -type f -name "*.*" -exec sed -i '' "s/AUTHOR_NAMESPACE/$AUTHOR_NAMESPACE/g" {} +
     fi
 
     # Plugin's own website
     if ! test -z "$PLUGIN_URI"
     then
-        find $PLUGIN_KEY -type f -name "*.*" -exec sed -i "s/PLUGIN_URI/$PLUGIN_URI/g" {} +
+        find $PLUGIN_KEY -type f -name "*.*" -exec sed -i '' "s/PLUGIN_URI/$PLUGIN_URI/g" {} +
     fi
 
 }
