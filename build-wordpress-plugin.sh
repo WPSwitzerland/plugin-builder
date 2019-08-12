@@ -3,11 +3,6 @@
 function runPluginBuilder()
 {
 
-    echo $0
-    echo $1
-    echo $2
-    echo $3
-
     ### PLUGIN KEY
     read -p "Plugin key: lowercase with underscores [my_plugin]:" plugin_key
     PLUGIN_KEY=${plugin_key:-my_plugin}
