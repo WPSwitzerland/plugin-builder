@@ -13,10 +13,11 @@ information it needs.
 ### On Mac OS
 If you're going to use this bash script on Mac OS, you'll first need to replace the default version of ``sed`` with
 [the GNU version](https://www.gnu.org/software/sed/), so that all of the necessary regular expression functionality
-works. You can use [Homebrew](https://brew.sh/) to do this.
+works. You can use [Homebrew](https://brew.sh/) to do this. When installing, Homebrew instructs on how to adapt the
+``PATH``, if one wants to use sed without the g prefix. (``--with-default-names`` is no longer supported.)
 
 ```
-brew install gnu-sed --with-default-names
+brew install gnu-sed
 ```
 
 ### Global access
