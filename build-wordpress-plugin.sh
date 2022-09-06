@@ -83,7 +83,7 @@ function runPluginBuilder()
     find $PLUGIN_KEY -type f -name "*.*" -exec sed -i '' "s/TEXT_DOMAIN/$PLUGIN_KEY_CLEAN/g" {} +
 
     # Apply plugin key as pascal case namespace
-    PLUGIN_NAMESPACE=$(echo $PLUGIN_KEY_CLEAN | sed -E 's/[_-]([a-z0-9])/\U\1/g')
+    PLUGIN_NAMESPACE=$(echo $PLUGIN_KEY_CLEAN | perl -nE 'say ucfirst join "", map {ucfirst lc} split /[^[:alnum:]]+/')
 
     echo ''
     echo $PLUGIN_NAMESPACE;
